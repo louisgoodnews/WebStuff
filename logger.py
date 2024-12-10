@@ -136,7 +136,7 @@ class Logger(BaseModel):
             **kwargs: Additional keyword arguments for future extensibility
         """
         print(
-            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [{self.name}] {self._colourise_(level, message)}",
+            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] [{self.name}] {self._colourise_(level, message)} {kwargs}",
         )
 
     def warning(self, message: str, **kwargs,) -> None:
