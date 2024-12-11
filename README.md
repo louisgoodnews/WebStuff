@@ -19,7 +19,7 @@ A Python-based asynchronous web utility toolkit that provides various web-relate
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/WebStuff.git
+git clone https://github.com/louisgoodenws/WebStuff.git
 cd WebStuff
 ```
 
