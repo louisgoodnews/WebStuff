@@ -1,3 +1,4 @@
+from typing import *
 from pydantic import BaseModel
 
 
@@ -7,14 +8,17 @@ class URLBuilder(BaseModel):
 
     Attributes:
         base_url (str): The base URL used as the starting point for building other URLs.
-        temp_base_url (str): A temporary URL used for building URLs with query parameters.
+        temp_base_url (Optional[str]): A temporary URL used for building URLs with query parameters.
+        temp_urls (Optional[List[str]]): A list of temporary URLs used for building URLs with query parameters.
     """
 
     class Config:
         arbitrary_types_allowed: bool = True
 
     base_url: str
-    temp_base_url: str
+    temp_base_url: Optional[str] = None
+
+    temp_urls: Optional[List[str]] = []
 
     def add_query_params(
         self,
@@ -45,6 +49,10 @@ class URLBuilder(BaseModel):
         """
         Constructs a generic API URL by appending the given endpoint to the base URL.
 
+        This method creates a temporary URL by appending the endpoint to the base URL,
+        and then adds query parameters if provided. It also appends the constructed URL
+        to a list of temporary URLs.
+
         Args:
             endpoint (str): The endpoint to append.
             **kwargs: Optional query parameters.
@@ -53,6 +61,11 @@ class URLBuilder(BaseModel):
             str: The constructed URL.
         """
         self._temp_base_url = f"{self.base_url.rstrip('/')}/{endpoint.lstrip('/')}"
+
+        if not self.temp_urls:
+            self.temp_urls = [self._temp_base_url]
+
+        self.temp_urls.append(self._temp_base_url)
 
         return self.add_query_params(
             url=self._temp_base_url,

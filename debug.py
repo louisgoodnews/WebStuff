@@ -3,13 +3,14 @@ import json
 from typing import *
 
 from headers import Headers
+from url_builder import URLBuilder
 from web_service import WebService
 from logger import Logger
 
 
 async def test_get() -> Dict[str, Any] | None:
     """Test GET request with custom headers"""
-    url = "https://httpbin.org/get"
+    url = URLBuilder(base_url="https://httpbin.org/").build_url("get")
     headers = Headers()
     headers.update(**{"X-Test-Header": "test-value"})
     
@@ -19,7 +20,7 @@ async def test_get() -> Dict[str, Any] | None:
 
 async def test_post() -> Dict[str, Any] | None:
     """Test POST request with JSON data"""
-    url = "https://httpbin.org/post"
+    url = URLBuilder(base_url="https://httpbin.org/").build_url("post")
     headers = Headers()
     data = {"test_key": "test_value", "timestamp": "2024-12-11T13:42:47+01:00"}
     
