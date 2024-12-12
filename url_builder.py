@@ -13,7 +13,7 @@ class URLBuilder(BaseModel):
     """
 
     class Config:
-        arbitrary_types_allowed: bool = True
+        arbitrary_types_allowed = True
 
     base_url: str
     temp_base_url: Optional[str] = None
