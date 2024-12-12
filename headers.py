@@ -13,7 +13,7 @@ class Headers(BaseModel):
     """
 
     class Config:
-        arbitrary_types_allowe: bool = True
+        arbitrary_types_allowed = True
 
     headers: Optional[Dict[str, str]] = {
         "Accept": "application/json",
