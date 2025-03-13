@@ -72,11 +72,13 @@ class WebService:
                         url=url,
                         **kwargs,
                     ) as response:
+                        # Check, if the log boolean value is true
                         if log:
-                            # Log the response status
+                            # Log an info message indicating the response status
                             cls.logger.info(
                                 message=f"Received response from {url}: {response.status}"
                             )
+                        
 
                         # Return the JSON response
                         return await response.json()
@@ -145,11 +147,14 @@ class WebService:
                         url=url,
                         **kwargs,
                     ) as response:
+                    # Check, if the log boolean value is true
                         if log:
+                            # Log an info message indicating the response status
                             cls.logger.info(
                                 message=f"Received response from {url}: {response.status}"
                             )
                         
+                        # Get the content type of the response
                         content_type: str = response.headers.get("Content-Type", "")
 
                         if content_type.startswith("application/json"):
@@ -230,10 +235,13 @@ class WebService:
                         url=url,
                         **kwargs,
                     ) as response:
+                        # Check, if the log boolean value is true
                         if log:
+                            # Log an info message indicating the response status
                             cls.logger.info(
                                 message=f"Received response from {url}: {response.status}"
                             )
+                        
                         # Return the JSON response
                         return await response.json()
 
@@ -301,11 +309,13 @@ class WebService:
                         url=url,
                         **kwargs,
                     ) as response:
+                        # Check, if the log boolean value is true
                         if log:
+                            # Log an info message indicating the response status
                             cls.logger.info(
                                 message=f"Received response from {url}: {response.status}"
                             )
-
+                        
                         # Return the JSON response
                         return await response.json()
 
