@@ -102,7 +102,7 @@ class WebService:
         url: str,
         log: bool = False,
         **kwargs,
-    ) -> Optional[Dict[str, Any]]:
+    ) -> Optional[Union[Dict[str, Any], str, bytes]]:
         """
         Sends a GET request to the specified URL and returns the response as a JSON.
 
@@ -115,8 +115,8 @@ class WebService:
         :param kwargs: Additional keyword arguments for the GET request.
         :type kwargs: dict
 
-        :return: The JSON response from the URL, or None if an error occurs.
-        :rtype: Optional[Dict[str, Any]]
+        :return: The response from the URL, or None if an error occurs.
+        :rtype: Optional[Union[Dict[str, Any], str, bytes]]
         """
         try:
 
@@ -124,7 +124,7 @@ class WebService:
                 url: str,
                 log: bool = False,
                 **kwargs,
-            ) -> Optional[Dict[str, Any]]:
+            ) -> Optional[Union[Dict[str, Any], str, bytes]]:
                 """
                 Asynchronously sends a GET request and returns the response JSON.
 
@@ -137,8 +137,8 @@ class WebService:
                 :param kwargs: Additional keyword arguments for the GET request.
                 :type kwargs: dict
 
-                :return: The JSON response from the URL, or None if an error occurs.
-                :rtype: Optional[Dict[str, Any]]
+                :return: The response from the URL, or None if an error occurs.
+                :rtype: Optional[Union[Dict[str, Any], str, bytes]]
                 """
                 async with aiohttp.ClientSession() as session:
                     async with session.get(
@@ -149,8 +149,22 @@ class WebService:
                             cls.logger.info(
                                 message=f"Received response from {url}: {response.status}"
                             )
-                        # Return the JSON response
-                        return await response.json()
+                        
+                        content_type: str = response.headers.get("Content-Type", "")
+
+                        if content_type.startswith("application/json"):
+                            
+                            # Return the JSON response
+                            return await response.json()
+                        elif content_type.startswith("text/"):
+
+                            # Return the text response
+                            return await response.text()
+                        else:
+
+                            # Return the binary response
+                            return await response.read()
+
 
             # Run the asynchronous __get__ function
             return asyncio.run(
